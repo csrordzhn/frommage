@@ -2,11 +2,18 @@ require 'sinatra'
 require 'rbnacl/libsodium'
 require 'config_env'
 require 'haml'
+require_relative './model/plan.rb'
+require_relative 'helpers/plan_helper'
 #require_relative './model/credit_card.rb'
 #require_relative 'helpers/creditcard_helper'
 
 class Frommage < Sinatra::Base
-
+  include PlanHelper
+  configure :development, :test do
+    #ConfigEnv.path_to_config("./config/config_env.rb")
+    require 'hirb'
+    Hirb.enable
+  end
 get '/' do
 #index
 "Welcome to yaochisu."
@@ -15,10 +22,13 @@ get '/about' do
 #about
 "Who are we? We don't know"
 end
+
 get '/plans' do
 #plans
-"We have plan silver, plan gold, and plan diamond."
+@available_plans = get_available_plans
+haml :plans
 end
+
 get '/faq' do
 #FAQ
 "Q: Why does it always rain on me? A: It is because you lied when you were 17?"

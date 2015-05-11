@@ -1,0 +1,12 @@
+%h2 Our plans:
+%table{:border => 10}
+  %tbody
+    %tr
+    %td Nombre del Plan
+    %td ¿Qué incluye?
+    %td Precio (USD)
+  - @available_plans.each do |object|
+    %tr
+      %td= object[:plan_name]
+      %td= object[:plan_desc]
+      %td= "$ #{object[:plan_price]}"
